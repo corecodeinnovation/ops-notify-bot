@@ -5,6 +5,7 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: z.string().min(1, "TELEGRAM_BOT_TOKEN es obligatorio"),
   TELEGRAM_CHAT_ID: z.string().min(1, "TELEGRAM_CHAT_ID es obligatorio"),
   PORT: z.coerce.number().int().positive().default(3001),
+  DOCKER_SOCKET: z.string().min(1).default("/var/run/docker.sock"),
 });
 
 export type Config = z.infer<typeof envSchema>;

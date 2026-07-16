@@ -5,6 +5,8 @@ services:
     environment:
       PORT: 3001
     ports: ["3007:3001"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]

@@ -17,15 +17,11 @@ function sleep(ms: number): Promise<void> {
 }
 
 export class TelegramNotifier implements Notifier {
-  private readonly bot: Bot;
-
   constructor(
-    private readonly token: string,
+    private readonly bot: Bot,
     private readonly chatId: string,
     private readonly maxAttempts = 3,
-  ) {
-    this.bot = new Bot(token);
-  }
+  ) {}
 
   // No-fatal: un token inválido o Telegram caído no debe impedir recibir webhooks.
   async checkConnection(): Promise<void> {
@@ -60,6 +56,6 @@ export class TelegramNotifier implements Notifier {
   // El token nunca debe llegar a los logs, ni siquiera dentro de una URL de error.
   private sanitize(err: unknown): string {
     const message = err instanceof Error ? err.message : String(err);
-    return message.replaceAll(this.token, "[redacted]");
+    return message.replaceAll(this.bot.token, "[redacted]");
   }
 }
