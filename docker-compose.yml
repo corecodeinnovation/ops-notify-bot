@@ -7,6 +7,9 @@ services:
     ports: ["3007:3001"]
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    # GID del grupo dueño del socket: en Linux `stat -c '%g' /var/run/docker.sock`
+    group_add:
+      - "${DOCKER_GID:-0}"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
