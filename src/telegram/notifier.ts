@@ -42,10 +42,12 @@ export class TelegramNotifier implements Notifier {
         if (attempt >= this.maxAttempts || !isRetryable(err)) {
           throw new Error(
             `envío a Telegram falló tras ${attempt} intento(s): ${this.sanitize(err)}`,
+            {
+              cause: err,
+            },
           );
         }
-        const retryAfter =
-          err instanceof GrammyError ? err.parameters.retry_after : undefined;
+        const retryAfter = err instanceof GrammyError ? err.parameters.retry_after : undefined;
         const delayMs = retryAfter !== undefined ? retryAfter * 1000 : 500 * 2 ** (attempt - 1);
         console.warn(`reintentando envío a Telegram (intento ${attempt}/${this.maxAttempts})`);
         await sleep(delayMs);

@@ -25,9 +25,7 @@ export function createWebhookRouter(secret: string, notifier: Notifier): Router 
     if (!parsed.success) {
       res.status(400).json({
         error: "invalid_payload",
-        issues: parsed.error.issues.map(
-          (issue) => `${issue.path.join(".")}: ${issue.message}`,
-        ),
+        issues: parsed.error.issues.map((issue) => `${issue.path.join(".")}: ${issue.message}`),
       });
       return;
     }

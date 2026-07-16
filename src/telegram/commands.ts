@@ -1,6 +1,11 @@
 import type { Bot } from "grammy";
 import type { DockerClient } from "../docker/client.js";
-import { getInfo, listContainers, type ContainerSummary, type DockerInfo } from "../docker/queries.js";
+import {
+  getInfo,
+  listContainers,
+  type ContainerSummary,
+  type DockerInfo,
+} from "../docker/queries.js";
 
 const STATE_ICON: Record<string, string> = {
   running: "🟢",
@@ -84,7 +89,9 @@ export function registerCommands(bot: Bot, docker: DockerClient, allowedChatId: 
   bot.catch(async (err) => {
     console.error(`error en comando: ${err.message}`);
     try {
-      await err.ctx.reply("⚠️ No pude consultar el estado. Revisa que el Docker socket esté montado.");
+      await err.ctx.reply(
+        "⚠️ No pude consultar el estado. Revisa que el Docker socket esté montado.",
+      );
     } catch {
       // Si tampoco se puede responder, ya quedó logueado arriba.
     }
