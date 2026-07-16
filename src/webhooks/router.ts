@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { createHash, timingSafeEqual } from "node:crypto";
+import { formatEvent } from "../telegram/format.js";
+import type { Notifier } from "../telegram/notifier.js";
 import { webhookEventSchema } from "./schema.js";
 
 // Hashear ambos valores garantiza buffers de igual longitud para timingSafeEqual.
@@ -9,7 +11,7 @@ function secretsMatch(received: string, expected: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-export function createWebhookRouter(secret: string): Router {
+export function createWebhookRouter(secret: string, notifier: Notifier): Router {
   const router = Router();
 
   router.post("/webhook", (req, res) => {
@@ -32,6 +34,12 @@ export function createWebhookRouter(secret: string): Router {
 
     const event = parsed.data;
     console.log(`evento recibido: ${event.type}`);
+
+    // Fire-and-forget: quien dispara el webhook no espera por los reintentos a Telegram.
+    void notifier.send(formatEvent(event)).catch((err: unknown) => {
+      console.error(err instanceof Error ? err.message : String(err));
+    });
+
     res.status(202).json({ received: true, type: event.type });
   });
 
