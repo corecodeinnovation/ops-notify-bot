@@ -20,6 +20,16 @@ export const webhookEventSchema = z.discriminatedUnion("type", [
     container: z.string().min(1),
     exitCode: z.number().int().optional(),
   }),
+  z.object({
+    type: z.literal("job_dlq"),
+    service: z.string().min(1),
+    queue: z.string().min(1),
+    jobId: z.string().min(1),
+    name: z.string().min(1),
+    failedReason: z.string(),
+    attemptsMade: z.number().int(),
+    failedAt: z.string(),
+  }),
 ]);
 
 export type WebhookEvent = z.infer<typeof webhookEventSchema>;

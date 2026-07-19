@@ -1,6 +1,9 @@
 services:
   bot:
     build: .
+    container_name: ops-notify-bot
+    networks:
+      - cci-net
     env_file: .env
     environment:
       PORT: 3001
@@ -14,3 +17,7 @@ services:
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
       interval: 30s
+
+networks:
+  cci-net:
+    external: true

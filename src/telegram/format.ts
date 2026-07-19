@@ -36,5 +36,12 @@ export function formatEvent(event: WebhookEvent): string {
       }
       return lines.join("\n");
     }
+    case "job_dlq":
+      return [
+        `💀 <b>Job en DLQ</b> [<code>${escapeHtml(event.service)}</code>]`,
+        `Job "<b>${escapeHtml(event.name)}</b>" (<code>${escapeHtml(event.jobId)}</code>) agotó ${event.attemptsMade} intentos en la cola <code>${escapeHtml(event.queue)}</code>.`,
+        `Motivo: ${escapeHtml(event.failedReason)}`,
+        `Fecha: <code>${escapeHtml(event.failedAt)}</code>`,
+      ].join("\n");
   }
 }
