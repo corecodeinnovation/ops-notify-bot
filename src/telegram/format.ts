@@ -43,5 +43,11 @@ export function formatEvent(event: WebhookEvent): string {
         `Motivo: ${escapeHtml(event.failedReason)}`,
         `Fecha: <code>${escapeHtml(event.failedAt)}</code>`,
       ].join("\n");
+    case "contact":
+      return [
+        `✉️ <b>Nuevo mensaje de contacto</b>`,
+        `De: <b>${escapeHtml(event.name)}</b> (<code>${escapeHtml(event.email)}</code>)`,
+        escapeHtml(event.message),
+      ].join("\n");
   }
 }

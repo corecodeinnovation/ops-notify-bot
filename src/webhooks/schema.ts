@@ -30,6 +30,12 @@ export const webhookEventSchema = z.discriminatedUnion("type", [
     attemptsMade: z.number().int(),
     failedAt: z.string(),
   }),
+  z.object({
+    type: z.literal("contact"),
+    name: z.string().min(1).max(100),
+    email: z.string().email().max(200),
+    message: z.string().min(1).max(2000),
+  }),
 ]);
 
 export type WebhookEvent = z.infer<typeof webhookEventSchema>;
