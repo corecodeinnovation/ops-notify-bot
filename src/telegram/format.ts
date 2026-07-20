@@ -36,6 +36,11 @@ export function formatEvent(event: WebhookEvent): string {
       }
       return lines.join("\n");
     }
+    case "container_restarted":
+      return [
+        `🔁 <b>Contenedor reiniciado</b>`,
+        `Contenedor: <code>${escapeHtml(event.container)}</code>`,
+      ].join("\n");
     case "job_dlq":
       return [
         `💀 <b>Job en DLQ</b> [<code>${escapeHtml(event.service)}</code>]`,

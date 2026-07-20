@@ -78,6 +78,9 @@ Tipos de evento:
 
 // contenedor caído
 { "type": "container_down", "container": "taskforge-worker", "exitCode": 137 }
+
+// contenedor reiniciado (restart explícito o vía política del daemon)
+{ "type": "container_restarted", "container": "taskforge-worker" }
 ```
 
 Ejemplo:

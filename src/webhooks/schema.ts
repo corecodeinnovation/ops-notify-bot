@@ -21,6 +21,10 @@ export const webhookEventSchema = z.discriminatedUnion("type", [
     exitCode: z.number().int().optional(),
   }),
   z.object({
+    type: z.literal("container_restarted"),
+    container: z.string().min(1),
+  }),
+  z.object({
     type: z.literal("job_dlq"),
     service: z.string().min(1),
     queue: z.string().min(1),
